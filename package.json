@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next export",
-    "deploy": "npm run build && gh-pages -d out",
+    "build": "cross-env NEXT_DISABLE_TURBOPACK=1 next build",
+    "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
@@ -42,9 +41,9 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.23",
     "babel-plugin-react-compiler": "1.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
-    "gh-pages": "^6.3.0",
     "postcss": "^8.5.6",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.6.14",
