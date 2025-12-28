@@ -1,15 +1,18 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: "export",
 
-  basePath: "/CONSTRUCTION-SITE",
-  assetPrefix: "/CONSTRUCTION-SITE",
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
+const nextConfig = {
+  output: 'export',
+
+  basePath,
+  assetPrefix: basePath ? `${basePath}/` : '',
 
   images: {
     unoptimized: true,
   },
 
   trailingSlash: true,
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
