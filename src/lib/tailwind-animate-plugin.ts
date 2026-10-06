@@ -1,7 +1,7 @@
 // src/lib/tailwind-animate-plugin.ts
 import plugin from 'tailwindcss/plugin'
 
-export const tailwindAnimatePlugin = plugin(({ addUtilities, theme }) => {
+export const tailwindAnimatePlugin = plugin(({ addUtilities }) => {
   addUtilities({
     '.animate-accordion-down': {
       animation: 'accordion-down 0.2s ease-out',

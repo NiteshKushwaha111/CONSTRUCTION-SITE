@@ -1,18 +1,18 @@
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from 'next'
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-
-const nextConfig = {
-  output: 'export',
-
-  basePath,
-  assetPrefix: basePath ? `${basePath}/` : '',
-
+const nextConfig: NextConfig = {
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
   },
-
-  trailingSlash: true,
 }
 
-module.exports = nextConfig
+export default nextConfig

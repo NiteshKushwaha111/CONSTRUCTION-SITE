@@ -1,268 +1,151 @@
-'use client'
+import { Phone, Mail, MapPin, Award, Users, ShieldCheck, Clock } from 'lucide-react'
+import PageHeader from '@/components/public/PageHeader'
+import ContactForm from '@/components/public/ContactForm'
+import { Container } from '@/components/ui/container'
+import { Card } from '@/components/ui/card'
+import { getSettings } from '@/lib/services/settings.service'
+import type { Metadata } from 'next'
 
-import { useState } from 'react'
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  Send,
-  CheckCircle2,
-  ShieldCheck,
-  Award,
-  Users,
-} from 'lucide-react'
+export const metadata: Metadata = {
+  title: 'Contact Us | SKYBOUND Construction',
+  description: 'Request a free consultation and project estimate from our licensed construction and architectural engineering team.',
+}
 
-export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3500)
-  }
+export default async function ContactPage() {
+  const settings = await getSettings()
+  const address = settings.contact?.address
+  const formattedAddress = address
+    ? `${address.street}, ${address.city}, ${address.state} ${address.zip}`
+    : '123 Construction Ave, Suite 500, New York, NY 10001'
 
   return (
-    <main className="overflow-hidden">
+    <main className="min-h-screen bg-background text-foreground pb-20">
+      <PageHeader
+        title="Let’s Build Something Exceptional"
+        subtitle="Start your construction journey with direct engineering consultation, transparent milestone budgeting, and guaranteed delivery."
+        badge="Contact Us"
+        breadcrumbs={[{ label: 'Contact' }]}
+      />
 
-      {/* ------------------------------------------------------------------ */}
-      {/* HERO – MATCHES ABOUT PAGE EXACTLY                                   */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-primary/30 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),transparent_60%)]" />
-        <div className="theme-container relative py-24">
-          <h1 className="text-5xl md:text-6xl font-extrabold max-w-4xl leading-tight">
-            Let’s Build Something <span className="text-primary">Great</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-gray-300">
-            Start your construction journey with expert guidance,
-            transparent planning, and proven execution.
-          </p>
-        </div>
-      </section>
+      <section className="py-[clamp(3.5rem,6vw,6rem)] border-b border-border">
+        <Container>
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            {/* Left Column: Direct Estimation Desk & Credentials */}
+            <div className="lg:col-span-5 space-y-6">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-wider text-primary block mb-2">
+                  ESTIMATION DESK
+                </span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
+                  Speak Directly With Our Project Leaders
+                </h2>
+                <p className="text-foreground-muted text-base font-normal leading-relaxed max-w-prose mt-3">
+                  Whether you are planning ground-up commercial construction, luxury residential developments, or civil infrastructure, our engineering estimators provide transparent guidance.
+                </p>
+              </div>
 
-      {/* ------------------------------------------------------------------ */}
-      {/* CONTACT EXPERIENCE                                                  */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="theme-container py-24">
-        <div className="grid lg:grid-cols-2 gap-20 items-start">
-
-          {/* LEFT – TRUST + INFO */}
-          <div>
-            <h2 className="text-3xl font-bold mb-6">
-              Talk to Our Experts
-            </h2>
-            <p className="text-gray-600 max-w-xl mb-10">
-              Whether you’re planning a residential build or a large-scale
-              commercial project, our team is ready to guide you end-to-end.
-            </p>
-
-            {/* Trust Highlights (KEY FIX) */}
-            <div className="grid grid-cols-2 gap-6 mb-12">
-              <TrustCard icon={Award} label="250+ Projects" />
-              <TrustCard icon={Users} label="Expert Team" />
-              <TrustCard icon={ShieldCheck} label="Licensed & Insured" />
-              <TrustCard icon={Clock} label="25+ Years Experience" />
-            </div>
-
-            {/* Contact Info */}
-            <div className="space-y-8">
-              <InfoRow
-                icon={Phone}
-                title="Call Us"
-                value="+1 (555) 123-4567"
-                sub="Mon – Fri · 8AM – 6PM"
-              />
-              <InfoRow
-                icon={Mail}
-                title="Email"
-                value="info@skybound.com"
-                sub="Response within 24 hours"
-              />
-              <InfoRow
-                icon={MapPin}
-                title="Office"
-                value="Los Angeles, CA"
-                sub="Serving Southern California"
-              />
-            </div>
-          </div>
-
-          {/* RIGHT – FORM */}
-          <div className="relative">
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary/30 to-transparent blur-xl" />
-            <div className="relative bg-white rounded-3xl shadow-xl p-10">
-
-              <h3 className="text-2xl font-bold mb-2">
-                Request a Consultation
-              </h3>
-              <p className="text-gray-600 mb-8">
-                Share your project details and our team will contact you shortly.
-              </p>
-
-              {submitted ? (
-                <div className="py-20 text-center">
-                  <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                  <h4 className="text-2xl font-bold mb-2">Message Sent</h4>
-                  <p className="text-gray-600">
-                    Our team will reach out within 24 hours.
-                  </p>
+              {/* Trust Metric Tiles */}
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                <div className="p-4 rounded-xl bg-surface border border-border">
+                  <Award className="h-5 w-5 text-primary mb-2" />
+                  <div className="text-base font-semibold text-foreground">
+                    {settings.stats?.projectsCompleted}+ Builds
+                  </div>
+                  <div className="text-xs font-normal text-foreground-muted">Delivered on-time</div>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <Input label="Full Name" required />
-                    <Input label="Email Address" type="email" required />
+                <div className="p-4 rounded-xl bg-surface border border-border">
+                  <ShieldCheck className="h-5 w-5 text-primary mb-2" />
+                  <div className="text-base font-semibold text-foreground">
+                    Licensed & Insured
                   </div>
+                  <div className="text-xs font-normal text-foreground-muted">Class-A Contractor</div>
+                </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <Input label="Phone Number" />
-                    <Select label="Project Type" />
+                <div className="p-4 rounded-xl bg-surface border border-border">
+                  <Clock className="h-5 w-5 text-primary mb-2" />
+                  <div className="text-base font-semibold text-foreground">
+                    {settings.stats?.yearsExperience}+ Years
                   </div>
+                  <div className="text-xs font-normal text-foreground-muted">Established 2003</div>
+                </div>
 
-                  <Input label="Subject" required />
-                  <Textarea label="Message" required />
+                <div className="p-4 rounded-xl bg-surface border border-border">
+                  <Users className="h-5 w-5 text-primary mb-2" />
+                  <div className="text-base font-semibold text-foreground">
+                    Dedicated PM
+                  </div>
+                  <div className="text-xs font-normal text-foreground-muted">Direct Site Contact</div>
+                </div>
+              </div>
 
-                  <button
-                    type="submit"
-                    className="w-full mt-4 py-4 rounded-xl bg-primary text-white font-semibold flex items-center justify-center gap-2 hover:bg-primary/90 transition"
-                  >
-                    <Send className="h-5 w-5" />
-                    Send Message
-                  </button>
-                </form>
-              )}
+              {/* Direct Channels */}
+              <div className="space-y-3 pt-2">
+                <Card className="p-4 flex items-start gap-3.5">
+                  <div className="p-2.5 rounded-lg bg-primary/10 text-primary shrink-0">
+                    <Phone className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-foreground-muted uppercase tracking-wider">
+                      Telephone Dispatch
+                    </h4>
+                    <p className="text-base font-bold text-foreground font-mono mt-0.5">
+                      {settings.contact?.phone}
+                    </p>
+                    <p className="text-xs font-normal text-foreground-muted">{settings.contact?.hours || 'Mon - Fri: 7:00 AM - 6:00 PM EST'}</p>
+                  </div>
+                </Card>
+
+                <Card className="p-4 flex items-start gap-3.5">
+                  <div className="p-2.5 rounded-lg bg-primary/10 text-primary shrink-0">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-foreground-muted uppercase tracking-wider">
+                      Estimation Email
+                    </h4>
+                    <p className="text-base font-bold text-foreground mt-0.5">
+                      {settings.contact?.email}
+                    </p>
+                    <p className="text-xs font-normal text-foreground-muted">All RFPs reviewed within 24 business hours</p>
+                  </div>
+                </Card>
+
+                <Card className="p-4 flex items-start gap-3.5">
+                  <div className="p-2.5 rounded-lg bg-primary/10 text-primary shrink-0">
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-foreground-muted uppercase tracking-wider">
+                      Corporate Headquarters
+                    </h4>
+                    <p className="text-sm font-semibold text-foreground mt-0.5">
+                      {formattedAddress}
+                    </p>
+                  </div>
+                </Card>
+              </div>
+            </div>
+
+            {/* Right Column: Working Contact Form */}
+            <div className="lg:col-span-7 bg-surface rounded-2xl p-6 sm:p-8 md:p-10 shadow-lg border border-border">
+              <div className="mb-6">
+                <span className="text-xs font-semibold uppercase tracking-wider text-primary block mb-1">
+                  DIRECT CONSULTATION
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight leading-snug">
+                  Request a Project Estimate
+                </h3>
+                <p className="text-sm font-normal text-foreground-muted mt-1 leading-relaxed">
+                  Provide your project specifications below and an engineering estimator will prepare your complimentary feasibility review.
+                </p>
+              </div>
+
+              <ContactForm defaultProjectType="Commercial Building" source="contact_page" />
             </div>
           </div>
-        </div>
+        </Container>
       </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* CTA STRIP – SOFT TRANSITION                                         */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="bg-gray-50 py-20">
-        <div className="theme-container text-center max-w-3xl">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Start Your Project?
-          </h2>
-          <p className="text-gray-600 mb-8">
-            From planning to execution, SKYBOUND Construction delivers with confidence.
-          </p>
-          <a
-            href="/projects"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition"
-          >
-            View Our Projects
-          </a>
-        </div>
-      </section>
-
     </main>
-  )
-}
-
-/* -------------------------------------------------------------------------- */
-/* SMALL COMPONENTS                                                           */
-/* -------------------------------------------------------------------------- */
-
-function TrustCard({
-  icon: Icon,
-  label,
-}: {
-  icon: React.ElementType
-  label: string
-}) {
-  return (
-    <div className="flex items-center gap-4 p-5 rounded-2xl bg-gray-50 border">
-      <div className="p-3 rounded-xl bg-primary/10 text-primary">
-        <Icon className="h-6 w-6" />
-      </div>
-      <span className="font-semibold">{label}</span>
-    </div>
-  )
-}
-
-function InfoRow({
-  icon: Icon,
-  title,
-  value,
-  sub,
-}: {
-  icon: React.ElementType
-  title: string
-  value: string
-  sub: string
-}) {
-  return (
-    <div className="flex items-start gap-4">
-      <div className="p-3 rounded-xl bg-primary/10 text-primary">
-        <Icon className="h-6 w-6" />
-      </div>
-      <div>
-        <h4 className="font-semibold">{title}</h4>
-        <p className="text-primary font-medium">{value}</p>
-        <p className="text-sm text-gray-500">{sub}</p>
-      </div>
-    </div>
-  )
-}
-
-function Input({
-  label,
-  type = 'text',
-  required = false,
-}: {
-  label: string
-  type?: string
-  required?: boolean
-}) {
-  return (
-    <div>
-      <label className="block text-sm font-medium mb-2">
-        {label} {required && '*'}
-      </label>
-      <input
-        type={type}
-        required={required}
-        className="w-full p-3 rounded-xl border focus:ring-2 focus:ring-primary"
-      />
-    </div>
-  )
-}
-
-function Textarea({
-  label,
-  required = false,
-}: {
-  label: string
-  required?: boolean
-}) {
-  return (
-    <div>
-      <label className="block text-sm font-medium mb-2">
-        {label} {required && '*'}
-      </label>
-      <textarea
-        required={required}
-        rows={4}
-        className="w-full p-3 rounded-xl border focus:ring-2 focus:ring-primary"
-      />
-    </div>
-  )
-}
-
-function Select({ label }: { label: string }) {
-  return (
-    <div>
-      <label className="block text-sm font-medium mb-2">{label}</label>
-      <select className="w-full p-3 rounded-xl border focus:ring-2 focus:ring-primary">
-        {['Residential', 'Commercial', 'Industrial', 'Renovation', 'Other'].map(
-          (type) => (
-            <option key={type}>{type}</option>
-          )
-        )}
-      </select>
-    </div>
   )
 }

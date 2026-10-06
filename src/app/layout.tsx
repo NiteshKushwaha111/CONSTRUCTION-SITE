@@ -1,13 +1,22 @@
-// src/app/layout.tsx
 import type { Metadata } from 'next'
+import { Manrope } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
-import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
+import { ThemePresetProvider } from '@/components/providers/ThemePresetProvider'
+import ThemePresetSwitcher from '@/components/shared/ThemePresetSwitcher'
+import ConditionalLayout from '@/components/layout/ConditionalLayout'
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-manrope',
+  weight: ['400', '500', '600', '700'],
+})
 
 export const metadata: Metadata = {
-  title: 'SKYBOUND Construction | Professional Building Solutions',
-  description: 'Quality construction services for residential and commercial projects',
+  title: 'SKYBOUND Construction | Premier Building Solutions',
+  description: 'Quality general contracting, civil engineering, and construction solutions for residential and commercial developments.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
 }
 
 export default function RootLayout({
@@ -16,14 +25,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={manrope.variable} suppressHydrationWarning>
       <body className="min-h-screen bg-background text-foreground font-sans antialiased">
         <ThemeProvider>
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <ThemePresetProvider>
+            <ConditionalLayout>{children}</ConditionalLayout>
+            <ThemePresetSwitcher />
+          </ThemePresetProvider>
         </ThemeProvider>
       </body>
     </html>

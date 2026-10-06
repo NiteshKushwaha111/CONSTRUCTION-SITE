@@ -1,241 +1,242 @@
-// app/about/page.tsx
-import {
-  Award,
-  Users,
-  Clock,
-  Shield,
-  Building2,
-} from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { Award, Users, Clock, Shield, Building2, ArrowRight } from 'lucide-react'
+import PageHeader from '@/components/public/PageHeader'
+import { Container } from '@/components/ui/container'
+import { SectionHeader } from '@/components/ui/section-header'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { getSettings } from '@/lib/services/settings.service'
+import type { Metadata } from 'next'
 
-export default function AboutPage() {
-  const teamMembers = [
-    { name: 'John Carter', role: 'Founder & CEO', experience: '25+ Years' },
-    { name: 'Sarah Miller', role: 'Project Director', experience: '18+ Years' },
-    { name: 'Mike Rodriguez', role: 'Head of Operations', experience: '20+ Years' },
-    { name: 'Lisa Chen', role: 'Chief Engineer', experience: '15+ Years' },
-  ]
+export const metadata: Metadata = {
+  title: 'About Us | SKYBOUND Construction',
+  description: 'Building excellence with innovation and integrity since 2003. Learn about our leadership, core values, and certifications.',
+}
+
+export default async function AboutPage() {
+  const settings = await getSettings()
 
   const values = [
     {
-      title: 'Safety First',
-      desc: 'Zero-accident mindset across all construction sites.',
+      number: '01',
+      title: 'Safety First Mindset',
+      desc: 'Zero-incident standard with full OSHA compliance on every active construction site.',
       icon: Shield,
     },
     {
-      title: 'Quality Craftsmanship',
-      desc: 'Every detail executed with precision and care.',
+      number: '02',
+      title: 'Master Craftsmanship',
+      desc: 'Obsession with structural integrity, premium materials, and fine architectural detail.',
       icon: Award,
     },
     {
-      title: 'On-Time Delivery',
-      desc: '97% of projects delivered on or before schedule.',
+      number: '03',
+      title: 'On-Time Milestone Delivery',
+      desc: 'Rigorous schedule tracking ensuring 98% of projects complete on or before contract date.',
       icon: Clock,
     },
     {
-      title: 'Team Excellence',
-      desc: 'Certified professionals with decades of experience.',
+      number: '04',
+      title: 'Transparent Client Trust',
+      desc: 'Itemized milestone accounting, daily superintendent updates, and no surprise change orders.',
       icon: Users,
     },
   ]
 
+  const leadership = [
+    { name: 'John Carter', role: 'Founder & Managing Director', exp: '25+ Years Experience' },
+    { name: 'Sarah Miller, PE', role: 'Chief Structural Engineer', exp: '18+ Years Experience' },
+    { name: 'Mike Rodriguez', role: 'Director of Field Operations', exp: '20+ Years Experience' },
+    { name: 'Lisa Chen, AIA', role: 'Principal Architect & BIM Lead', exp: '15+ Years Experience' },
+  ]
+
   const certifications = [
-    {
-      name: 'OSHA 30-Hour Certified',
-      issuer: 'Occupational Safety Authority',
-      icon: Shield,
-    },
-    {
-      name: 'LEED Accredited',
-      issuer: 'Green Building Council',
-      icon: Award,
-    },
-    {
-      name: 'Licensed General Contractor',
-      issuer: 'State License Board',
-      icon: Building2,
-    },
+    { name: 'OSHA 30-Hour Construction Safety', issuer: 'U.S. Department of Labor', icon: Shield },
+    { name: 'LEED Accredited General Contractor', issuer: 'U.S. Green Building Council', icon: Award },
+    { name: 'Licensed Class-A General Contractor', issuer: 'State Contractor Licensing Board', icon: Building2 },
   ]
 
   return (
-    <main className="overflow-hidden">
+    <main className="min-h-screen bg-background text-foreground pb-20">
+      <PageHeader
+        title="Building Excellence with Precision & Integrity"
+        subtitle={settings.description}
+        badge="About SKYBOUND"
+        breadcrumbs={[{ label: 'About Us' }]}
+      />
 
-      {/* ------------------------------------------------------------------ */}
-      {/* HERO SECTION */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-primary/30 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),transparent_60%)]" />
-        <div className="theme-container relative py-24">
-          <h1 className="text-5xl md:text-6xl font-extrabold max-w-4xl leading-tight">
-            Building <span className="text-primary">Excellence</span> Since 1998
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-gray-300">
-            For over two decades, SKYBOUND Construction has transformed
-            ambitious visions into durable, world-class structures.
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Link
-              href="/projects"
-              className="px-8 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition"
-            >
-              View Our Projects
-            </Link>
-            <Link
-              href="/contact"
-              className="px-8 py-3 rounded-xl border border-white/30 text-white hover:bg-white/10 transition"
-            >
-              Get in Touch
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* STORY SECTION */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="theme-container py-24">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-3xl font-bold mb-6">
-              Our Journey
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Founded in 1998, SKYBOUND Construction began as a small residential
-              firm driven by integrity and craftsmanship. Today, we are a
-              full-service construction company trusted across residential,
-              commercial, and industrial projects.
-            </p>
-            <p className="text-gray-600 mb-8">
-              Our success is built on transparency, engineering excellence, and
-              long-term client partnerships.
-            </p>
-
-            <div className="grid grid-cols-2 gap-6">
-              <div className="p-6 rounded-xl bg-gray-50 border">
-                <div className="text-4xl font-bold text-primary">250+</div>
-                <div className="text-gray-500 mt-1">Projects Delivered</div>
+      {/* Heritage & Editorial Story */}
+      <section className="py-[clamp(3.5rem,6vw,6rem)] border-b border-border">
+        <Container>
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-primary/10 border border-primary/20 text-primary text-xs font-semibold tracking-wider uppercase">
+                <span>OUR HERITAGE</span>
               </div>
-              <div className="p-6 rounded-xl bg-gray-50 border">
-                <div className="text-4xl font-bold text-primary">98%</div>
-                <div className="text-gray-500 mt-1">Client Satisfaction</div>
+
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
+                Two Decades of Transformative Structural Engineering
+              </h2>
+
+              <p className="text-foreground-muted text-base sm:text-lg font-normal leading-relaxed max-w-prose">
+                Founded over 20 years ago, Skybound Construction began as a boutique civil contractor driven by craftsmanship, accountability, and engineering rigor.
+              </p>
+
+              <p className="text-foreground-muted text-base font-normal leading-relaxed max-w-prose">
+                Today, we have grown into a premier general contracting firm delivering luxury private estates, multi-story commercial office towers, and complex healthcare facilities nationwide.
+              </p>
+
+              {/* Metric Callouts */}
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                <div className="p-5 rounded-xl bg-surface border border-border">
+                  <div className="text-4xl md:text-5xl font-bold font-mono tracking-tight leading-none text-primary mb-1">
+                    {settings.stats?.projectsCompleted}+
+                  </div>
+                  <div className="text-sm font-medium text-foreground">Completed Builds</div>
+                  <div className="text-xs font-normal text-foreground-muted mt-0.5">Across 6 major sectors</div>
+                </div>
+
+                <div className="p-5 rounded-xl bg-surface border border-border">
+                  <div className="text-4xl md:text-5xl font-bold font-mono tracking-tight leading-none text-primary mb-1">
+                    {settings.stats?.clientSatisfaction}%
+                  </div>
+                  <div className="text-sm font-medium text-foreground">Client Satisfaction</div>
+                  <div className="text-xs font-normal text-foreground-muted mt-0.5">Verified review score</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 relative">
+              <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-muted border border-border shadow-md">
+                <Image
+                  src="https://images.unsplash.com/photo-1541888946425-d0fbb18615f8?q=80&w=1200"
+                  alt="Skybound construction site engineers"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                />
               </div>
             </div>
           </div>
-
-          <div className="relative h-[420px] rounded-3xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-            <Building2 className="h-32 w-32 text-primary/40" />
-          </div>
-        </div>
+        </Container>
       </section>
 
-      {/* ------------------------------------------------------------------ */}
-      {/* CORE VALUES */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="bg-gray-50 py-24">
-        <div className="theme-container">
-          <h2 className="text-center text-3xl font-bold mb-16">
-            Our Core Values
-          </h2>
+      {/* Foundational Pillars */}
+      <section className="py-[clamp(3.5rem,6vw,6rem)] bg-surface-muted border-b border-border">
+        <Container>
+          <SectionHeader
+            eyebrow="FOUNDATIONAL PILLARS"
+            title="Our Core Company Values"
+            description="The fundamental principles that guide our site supervisors, structural engineers, and project managers every day."
+            align="center"
+          />
 
-          <div className="grid md:grid-cols-4 gap-8">
-            {values.map((value) => (
-              <div
-                key={value.title}
-                className="group bg-white p-8 rounded-2xl border shadow-sm hover:shadow-xl transition"
-              >
-                <value.icon className="h-12 w-12 text-primary mb-6 group-hover:scale-110 transition" />
-                <h3 className="text-xl font-semibold mb-3">
-                  {value.title}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map((val) => (
+              <Card key={val.title} className="p-6 sm:p-7 flex flex-col justify-between">
+                <div>
+                  <div className="text-xs font-mono font-bold text-primary mb-3">
+                    {val.number}
+                  </div>
+                  <div className="h-10 w-10 rounded-lg bg-primary/10 border border-primary/20 text-primary flex items-center justify-center mb-4">
+                    <val.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-base font-semibold leading-snug text-foreground mb-2">
+                    {val.title}
+                  </h3>
+                  <p className="text-sm font-normal text-foreground-muted leading-relaxed">
+                    {val.desc}
+                  </p>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Leadership Team */}
+      <section className="py-[clamp(3.5rem,6vw,6rem)] border-b border-border">
+        <Container>
+          <SectionHeader
+            eyebrow="EXECUTIVE LEADERSHIP"
+            title="Meet the Engineers & Builders Behind Skybound"
+            description="Decades of combined technical and field operations experience across civil engineering, architecture, and general contracting."
+            align="center"
+          />
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {leadership.map((member) => (
+              <Card key={member.name} className="p-6 text-center">
+                <div className="h-20 w-20 rounded-full bg-primary/10 border border-primary/25 mx-auto mb-4 flex items-center justify-center text-primary font-bold text-xl">
+                  {member.name.slice(0, 2)}
+                </div>
+                <h3 className="text-base font-semibold text-foreground">
+                  {member.name}
                 </h3>
-                <p className="text-gray-600">
-                  {value.desc}
+                <p className="text-xs font-semibold text-primary mt-1 mb-2">
+                  {member.role}
+                </p>
+                <p className="text-xs font-normal text-foreground-muted">{member.exp}</p>
+              </Card>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Certifications */}
+      <section className="py-[clamp(3.5rem,6vw,6rem)] bg-secondary text-secondary-foreground border-b border-border-strong">
+        <Container>
+          <SectionHeader
+            eyebrow="INDUSTRY CREDENTIALS"
+            title="Licensing, Safety & Accreditations"
+            description="We hold top-tier national and state credentials in safety and sustainable building."
+            align="center"
+            variant="dark"
+          />
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {certifications.map((cert) => (
+              <div
+                key={cert.name}
+                className="p-6 rounded-xl bg-white/5 border border-white/10 text-center space-y-3"
+              >
+                <cert.icon className="h-8 w-8 text-accent mx-auto" />
+                <h3 className="text-base font-semibold text-secondary-foreground">
+                  {cert.name}
+                </h3>
+                <p className="text-xs font-normal text-secondary-foreground/75">
+                  {cert.issuer}
                 </p>
               </div>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
-      {/* ------------------------------------------------------------------ */}
-      {/* LEADERSHIP */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="theme-container py-24">
-        <h2 className="text-center text-3xl font-bold mb-16">
-          Meet Our Leadership
-        </h2>
-
-        <div className="grid md:grid-cols-4 gap-10">
-          {teamMembers.map((member) => (
-            <div
-              key={member.name}
-              className="text-center bg-white p-8 rounded-2xl border hover:shadow-xl transition"
-            >
-              <div className="mx-auto mb-6 h-28 w-28 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center">
-                <Users className="h-10 w-10 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold">{member.name}</h3>
-              <p className="text-primary font-medium">{member.role}</p>
-              <p className="text-gray-500 text-sm mt-2">
-                {member.experience} Experience
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* CERTIFICATIONS */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="bg-gray-900 text-white py-24">
-        <div className="theme-container">
-          <h2 className="text-center text-3xl font-bold mb-16">
-            Certifications & Accreditations
+      {/* Bottom CTA */}
+      <section className="py-[clamp(3.5rem,6vw,5.5rem)] text-center">
+        <Container size="narrow" className="space-y-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
+            Ready to Partner with Skybound?
           </h2>
-
-          <div className="grid md:grid-cols-3 gap-10">
-            {certifications.map((cert) => (
-              <div
-                key={cert.name}
-                className="p-8 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition text-center"
-              >
-                <cert.icon className="h-14 w-14 mx-auto mb-6 text-primary" />
-                <h3 className="text-xl font-semibold mb-2">
-                  {cert.name}
-                </h3>
-                <p className="text-gray-300">{cert.issuer}</p>
-              </div>
-            ))}
+          <p className="text-foreground-muted text-base font-normal leading-relaxed max-w-xl mx-auto">
+            Let’s discuss your construction requirements and build a durable, high-value solution together.
+          </p>
+          <div className="pt-4 flex flex-wrap justify-center gap-3">
+            <Button asChild variant="primary" size="lg">
+              <Link href="/contact">
+                <span>Request Project Proposal</span>
+                <ArrowRight className="h-4 w-4 ml-1.5" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/projects">
+                <span>View Project Case Studies</span>
+              </Link>
+            </Button>
           </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* CTA */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="theme-container py-24 text-center">
-        <h2 className="text-4xl font-bold mb-6">
-          Ready to Build Your Vision?
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto mb-10">
-          Partner with a construction company that delivers quality,
-          reliability, and complete peace of mind.
-        </p>
-
-        <div className="flex justify-center gap-4 flex-wrap">
-          <Link
-            href="/contact"
-            className="px-10 py-4 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition"
-          >
-            Start Your Project
-          </Link>
-          <Link
-            href="/services"
-            className="px-10 py-4 rounded-xl border border-primary text-primary font-semibold hover:bg-primary/5 transition"
-          >
-            Our Services
-          </Link>
-        </div>
+        </Container>
       </section>
     </main>
   )
