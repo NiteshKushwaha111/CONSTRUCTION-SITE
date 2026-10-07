@@ -106,7 +106,7 @@ export default function CTASection({
           </div>
 
           {/* Right Column: Working Contact Form */}
-          <div className="lg:col-span-6 bg-surface text-foreground rounded-2xl p-6 sm:p-8 md:p-10 shadow-2xl border border-border">
+          <div className="lg:col-span-6 bg-surface text-foreground rounded-2xl p-5 sm:p-7 md:p-9 lg:p-10 shadow-2xl border border-border">
             <div className="mb-6">
               <h3 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight">
                 Request a Free Estimate

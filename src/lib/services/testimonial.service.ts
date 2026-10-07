@@ -6,6 +6,9 @@ import { DEFAULT_TESTIMONIALS } from '@/config/data'
 export { DEFAULT_TESTIMONIALS }
 
 export async function getAllTestimonials(): Promise<ITestimonial[]> {
+  if (!process.env.MONGODB_URI) {
+    return DEFAULT_TESTIMONIALS
+  }
   try {
     await connectDB()
     const testimonials = await Testimonial.find({ isApproved: true }).sort({ createdAt: -1 }).lean<ITestimonial[]>()
@@ -13,7 +16,7 @@ export async function getAllTestimonials(): Promise<ITestimonial[]> {
       return JSON.parse(JSON.stringify(testimonials))
     }
   } catch (error) {
-    console.warn('DB lookup failed for testimonials, using defaults:', error)
+    console.warn('DB lookup failed for testimonials, using defaults:', error instanceof Error ? error.message : error)
   }
   return DEFAULT_TESTIMONIALS
 }

@@ -36,42 +36,59 @@ export function ThemeProvider({
   )
 }
 
+import { applyThemeVariables } from '@/components/providers/ThemePresetProvider'
+
 export function ThemeToggle({ className }: { className?: string }) {
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
+  const [isDark, setIsDark] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
-  }, [])
+    const activeDark = document.documentElement.classList.contains('dark') || resolvedTheme === 'dark'
+    setIsDark(activeDark)
+  }, [resolvedTheme])
 
-  if (!mounted) {
-    return (
-      <div
-        className={cn(
-          'h-10 w-10 rounded-lg border border-border bg-surface shadow-xs',
-          className
-        )}
-      />
-    )
+  const handleToggle = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const currentlyDark = document.documentElement.classList.contains('dark')
+    const nextTheme = currentlyDark ? 'light' : 'dark'
+
+    // 1. Immediately toggle DOM class
+    if (nextTheme === 'dark') {
+      document.documentElement.classList.add('dark')
+      document.documentElement.classList.remove('light')
+    } else {
+      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.add('light')
+    }
+
+    // 2. Update local state for instant icon flip
+    setIsDark(!currentlyDark)
+
+    // 3. Persist to next-themes and localStorage
+    setTheme(nextTheme)
+
+    // 4. Update CSS variables with current active brand colors
+    applyThemeVariables()
   }
-
-  const isDark = resolvedTheme === 'dark' || theme === 'dark'
 
   return (
     <button
       type="button"
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      onClick={handleToggle}
       className={cn(
-        'inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-foreground hover:bg-surface-muted hover:border-primary/50 transition-colors shadow-xs cursor-pointer',
+        'inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg border border-border bg-surface text-foreground hover:bg-surface-muted hover:border-primary/50 transition-colors shadow-xs cursor-pointer select-none',
         className
       )}
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-      title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-label={mounted && isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      title={mounted && isDark ? 'Switch to light theme' : 'Switch to dark theme'}
     >
-      {isDark ? (
-        <Sun className="h-4.5 w-4.5 text-amber-400 transition-transform hover:rotate-45" />
+      {mounted && isDark ? (
+        <Sun className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-amber-500 fill-amber-500/20 transition-transform hover:rotate-45" />
       ) : (
-        <Moon className="h-4.5 w-4.5 text-foreground transition-transform hover:-rotate-12" />
+        <Moon className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-foreground fill-foreground/10 transition-transform hover:-rotate-12" />
       )}
     </button>
   )

@@ -18,6 +18,9 @@ function getLocalSettings(): ISiteSettings {
 }
 
 export async function getSettings(): Promise<ISiteSettings> {
+  if (!process.env.MONGODB_URI) {
+    return getLocalSettings()
+  }
   try {
     await connectDB()
     const settings = await SiteSettings.findOne().lean<ISiteSettings>()
@@ -25,7 +28,7 @@ export async function getSettings(): Promise<ISiteSettings> {
       return JSON.parse(JSON.stringify(settings))
     }
   } catch (error) {
-    console.warn('Could not fetch settings from DB, using defaults:', error)
+    console.warn('Could not fetch settings from DB, using defaults:', error instanceof Error ? error.message : error)
   }
   return getLocalSettings()
 }

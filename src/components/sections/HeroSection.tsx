@@ -48,8 +48,8 @@ export default function HeroSection() {
 
             {/* Action-Oriented CTAs */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
-              <Button asChild variant="primary" size="lg">
-                <Link href="/contact" className="flex items-center gap-2">
+              <Button asChild variant="primary" size="lg" className="w-full sm:w-auto">
+                <Link href="/contact" className="flex items-center justify-center gap-2">
                   <span>Start Your Project</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -59,9 +59,9 @@ export default function HeroSection() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-white/25 text-white hover:bg-white/10 hover:border-white/50"
+                className="w-full sm:w-auto border-white/25 text-white hover:bg-white/10 hover:border-white/50"
               >
-                <Link href="/projects" className="flex items-center gap-1.5">
+                <Link href="/projects" className="flex items-center justify-center gap-1.5">
                   <span>View Our Projects</span>
                   <ChevronRight className="h-4 w-4 text-white/60" />
                 </Link>

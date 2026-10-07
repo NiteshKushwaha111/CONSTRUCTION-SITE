@@ -18,6 +18,9 @@ function getLocalServices(): IService[] {
 }
 
 export async function getAllServices(): Promise<IService[]> {
+  if (!process.env.MONGODB_URI) {
+    return getLocalServices().filter((s) => s.isActive)
+  }
   try {
     await connectDB()
     const services = await Service.find({ isActive: true }).sort({ order: 1 }).lean<IService[]>()
@@ -25,12 +28,15 @@ export async function getAllServices(): Promise<IService[]> {
       return JSON.parse(JSON.stringify(services))
     }
   } catch (error) {
-    console.warn('Could not fetch services from DB, using defaults:', error)
+    console.warn('Could not fetch services from DB, using defaults:', error instanceof Error ? error.message : error)
   }
   return getLocalServices().filter((s) => s.isActive)
 }
 
 export async function getAdminServices(): Promise<IService[]> {
+  if (!process.env.MONGODB_URI) {
+    return getLocalServices()
+  }
   try {
     await connectDB()
     const services = await Service.find().sort({ order: 1 }).lean<IService[]>()
@@ -44,6 +50,10 @@ export async function getAdminServices(): Promise<IService[]> {
 }
 
 export async function getServiceBySlug(slug: string): Promise<IService | null> {
+  if (!process.env.MONGODB_URI) {
+    const fallback = getLocalServices().find((s) => s.slug === slug && s.isActive)
+    return fallback || null
+  }
   try {
     await connectDB()
     const service = await Service.findOne({ slug, isActive: true }).lean<IService>()
@@ -51,7 +61,7 @@ export async function getServiceBySlug(slug: string): Promise<IService | null> {
       return JSON.parse(JSON.stringify(service))
     }
   } catch (error) {
-    console.warn('DB lookup failed for service slug:', error)
+    console.warn('DB lookup failed for service slug:', error instanceof Error ? error.message : error)
   }
   const fallback = getLocalServices().find((s) => s.slug === slug && s.isActive)
   return fallback || null

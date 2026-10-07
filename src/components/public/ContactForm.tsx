@@ -188,10 +188,11 @@ export default function ContactForm({
         variant="primary"
         size="lg"
         isLoading={isSubmitting}
-        className="w-full mt-2"
-        rightIcon={<Send className="h-4 w-4" />}
+        className="w-full mt-2 px-4 py-3 min-h-[3rem] text-sm sm:text-base font-semibold whitespace-normal sm:whitespace-nowrap text-center"
+        rightIcon={<Send className="h-4 w-4 shrink-0" />}
       >
-        Request Complimentary Feasibility Review
+        <span className="hidden sm:inline">Request Complimentary Feasibility Review</span>
+        <span className="sm:hidden">Request Feasibility Review</span>
       </Button>
     </form>
   )

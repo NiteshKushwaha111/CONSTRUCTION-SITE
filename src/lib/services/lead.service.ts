@@ -94,6 +94,13 @@ export async function createLead(data: LeadInput): Promise<ILead> {
 }
 
 export async function getAllLeads(status?: LeadStatus): Promise<ILead[]> {
+  if (!process.env.MONGODB_URI) {
+    const list = getLocalLeads()
+    if (status && status !== ('all' as unknown as LeadStatus)) {
+      return list.filter((l) => l.status === status)
+    }
+    return list
+  }
   try {
     await connectDB()
     const query = status ? { status } : {}
@@ -102,7 +109,7 @@ export async function getAllLeads(status?: LeadStatus): Promise<ILead[]> {
       return JSON.parse(JSON.stringify(leads))
     }
   } catch (error) {
-    console.warn('MongoDB unavailable for leads lookup, returning local store:', error)
+    console.warn('MongoDB unavailable for leads lookup, returning local store:', error instanceof Error ? error.message : error)
   }
 
   const list = getLocalLeads()

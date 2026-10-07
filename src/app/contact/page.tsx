@@ -128,7 +128,7 @@ export default async function ContactPage() {
             </div>
 
             {/* Right Column: Working Contact Form */}
-            <div className="lg:col-span-7 bg-surface rounded-2xl p-6 sm:p-8 md:p-10 shadow-lg border border-border">
+            <div className="lg:col-span-7 bg-surface rounded-2xl p-5 sm:p-7 md:p-9 lg:p-10 shadow-lg border border-border">
               <div className="mb-6">
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary block mb-1">
                   DIRECT CONSULTATION

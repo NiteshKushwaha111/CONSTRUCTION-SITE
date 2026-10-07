@@ -18,6 +18,13 @@ function getLocalProjects(): IProject[] {
 }
 
 export async function getAllProjects(category?: string): Promise<IProject[]> {
+  if (!process.env.MONGODB_URI) {
+    const list = getLocalProjects()
+    if (category && category !== 'All') {
+      return list.filter((p) => p.category.toLowerCase() === category.toLowerCase())
+    }
+    return list
+  }
   try {
     await connectDB()
     const query: Record<string, unknown> = category && category !== 'All' ? { category: category as ProjectCategory } : {}
@@ -26,7 +33,7 @@ export async function getAllProjects(category?: string): Promise<IProject[]> {
       return JSON.parse(JSON.stringify(projects))
     }
   } catch (error) {
-    console.warn('DB lookup failed for projects, using defaults:', error)
+    console.warn('DB lookup failed for projects, using defaults:', error instanceof Error ? error.message : error)
   }
 
   const list = getLocalProjects()
@@ -37,6 +44,9 @@ export async function getAllProjects(category?: string): Promise<IProject[]> {
 }
 
 export async function getFeaturedProjects(): Promise<IProject[]> {
+  if (!process.env.MONGODB_URI) {
+    return getLocalProjects().filter((p) => p.isFeatured)
+  }
   try {
     await connectDB()
     const projects = await Project.find({ isFeatured: true }).sort({ order: 1 }).lean<IProject[]>()
@@ -44,12 +54,16 @@ export async function getFeaturedProjects(): Promise<IProject[]> {
       return JSON.parse(JSON.stringify(projects))
     }
   } catch (error) {
-    console.warn('DB lookup failed for featured projects:', error)
+    console.warn('DB lookup failed for featured projects:', error instanceof Error ? error.message : error)
   }
   return getLocalProjects().filter((p) => p.isFeatured)
 }
 
 export async function getProjectBySlug(slug: string): Promise<IProject | null> {
+  if (!process.env.MONGODB_URI) {
+    const fallback = getLocalProjects().find((p) => p.slug === slug)
+    return fallback || null
+  }
   try {
     await connectDB()
     const project = await Project.findOne({ slug }).lean<IProject>()
@@ -57,7 +71,7 @@ export async function getProjectBySlug(slug: string): Promise<IProject | null> {
       return JSON.parse(JSON.stringify(project))
     }
   } catch (error) {
-    console.warn('DB lookup failed for project slug:', error)
+    console.warn('DB lookup failed for project slug:', error instanceof Error ? error.message : error)
   }
   const fallback = getLocalProjects().find((p) => p.slug === slug)
   return fallback || null
